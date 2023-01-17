@@ -1,0 +1,19 @@
+Package: NRVATGFLMM
+Type: Package
+Title: Rare Variants Association Test via Copulas
+Version: 1.0
+Date: 2022-05-25
+Author: DOSSA H. Roland G., Lakhal-Chaieb Lajmi, Oualkacha Karim
+Maintainer: Dossa H. Roland G. <houssoudossa@gmail.com>
+Description: Perform a family-based association test for rare variants using marginal logistic (NRVAT) and generalized functional linear mixed models (GFLMM) for 
+    gene-based association testing of dichotomous traits implying a Gaussian Copula.
+License: GPL-2
+Imports: Rcpp, foreach, parallel, mvtnorm, CompQuadForm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr
+LinkingTo: Rcpp, RcppArmadillo
+Encoding: UTF-8
+NeedsCompilation: no
+Depends: R (>= 3.2.0)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr

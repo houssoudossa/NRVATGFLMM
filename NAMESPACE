@@ -1,0 +1,17 @@
+#exportPattern("^[[:alpha:]]+")
+import(Rcpp)
+import(foreach)
+import(parallel)
+import(mvtnorm)
+import(CompQuadForm)
+#import(glm)
+import(VineCopula)
+import(copula)
+import(SKAT)
+import(Matrix)
+import(MASS)
+import(fda)
+import(dplyr)
+
+# functions
+export(NRVAT, CBGF_Beta_Only, CBGF_Fixed)

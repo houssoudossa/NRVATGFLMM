@@ -1,0 +1,314 @@
+---
+title: "NRVATGFLMM"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NRVATGFLMM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+
+author: "DOSSA H. Roland G., Oualkacha Karim, Lakhal-Chaieb Lajmi"
+
+header-includes: \usepackage{amsmath}
+                  \usepackage{mathrsfs}
+                   \usepackage{amssymb}
+                    \usepackage{verbatim}
+                    \usepackage{dsfont}
+                    \usepackage{varwidth}
+                      \usepackage{bm}
+                      \usepackage{bbold}
+                      \DeclareMathOperator*{\argmin}{arg\,min}
+                      
+---
+
+# Introduction
+
+**NRVATGFLMM** is an R package for performing a family-based association test for rare variants using marginal logistic (NRVAT) and generalized functional linear mixed models (GFLMM) for gene-based association testing of dichotomous traits implying a Gaussian Copula. The latter is employed to model the dependence between relatives.
+
+# Models
+Consider $I$ families and for $i=1,...,I$, let $n_i$ be the size of the $i^{\mbox{th}}$ family. The total sample size is $N=\sum_{i=1}^I n_i$. For $i=1,...,I$ and $j=1,...,n_i$ let $Y_{ij} \in \{0,1\}$ be the binary phenotype under investigation for individual $j$ in family $i$. We begin by specifying the (conditional) marginal distribution of $Y_{ij}$, denoted $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{G}_{ij})$, where 
+$\mathbf{X}_{ij}=(1,X_{ij1},...,X_{ijs})^\top$ is a row covariates vector and  
+$\mathbf{G}_{ij}=(G_{ij1},...,G_{ijr})^\top$ is a set of genotypes coded as ($0,1,2$) from biallelic variants. Since the response variable is dichotomous, $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{G}_{ij})$ is completely specified by 
+$\mu_{ij} = \mathbf{P}(Y_{ij}=1|\mathbf{X}_{ij},\mathbf{G}_{ij})$. 
+
+Thus, we relate the binary phenotype $Y_{ij}$ to $\mathbf{X}_{ij}$ and $\mathbf{G}_{ij}$ through a logistic regression model  
+$$
+\mbox{logit}(\mu_{ij})=
+\mathbf{X}_{ij}^{\top}\boldsymbol{\gamma}+\mathbf{G}_{ij}^{\top}\boldsymbol{\beta}, \quad j=1,\ldots, n_{i}, \quad i=1,\ldots,I,
+$$
+where $\mbox{logit}(u)=\log[\frac{u}{1-u}],$ and $\boldsymbol{\gamma}=(\gamma_0,\gamma_1,...,\gamma_s)^\top$ and $\boldsymbol{\beta}=(\beta_1,...,\beta_r)^\top$ are sets of regression coefficients. In a matrix notation, one has 
+$$\mbox{logit}(\boldsymbol{\mu}_{i})=
+\mathbf{X}_{i}\boldsymbol{\gamma}+\mathbf{G}_{i}\boldsymbol{\beta},$$
+where $\boldsymbol{\mu}_{i}=(\boldsymbol{\mu}_{i1},...,\boldsymbol{\mu}_{in_i})^\top$, $\mathbf{X}_{i}$ is a $n_i \times (s+1)$ matrix with the $j^\mbox{th}$ row equal to $\mathbf{X}_{ij}$ and $\mathbf{G}_{i}$ is a $n_i \times r$ matrix with the $j^\mbox{th}$ row equal to $\mathbf{G}_{ij}$. The logit was taken element-wise of the entries of $\boldsymbol{\mu}_{i}.$
+
+
+In the context of fonctionnal data analysis, we consider $I$ families and for $i=1,...,I$, $n_i$ be the size of the $i^{\mbox{th}}$ family. The total sample size is $N=\sum_{i=1}^I n_i$. For $i=1,...,I$ and $j=1,...,n_i$ let $Y_{ij} \in \{0,\hspace{0.03cm}1\}$ be a dichotomous trait of interest coded as 1 and 0 denoting respectively, affected and unaffected for individual $j$ in family $i$. All individuals are sequenced in a genomic region with $r$ genetic variant. Let assume that the physical location of the $r$ genetic variant are ordered, known, and denoted $0\leq v_1<\cdots<v_r,$ and normalized on the unit region $[0,\hspace{0.03cm}1].$ We specify the (conditional) marginal distribution of $Y_{ij}$, denoted $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{G}_{ij})$, where $\mathbf{X}_{ij}=(1,X_{ij1},...,X_{ijs})^\top$ is a row covariates vector and $\mathbf{G}_{ij}=(G_{ij}(v_1),...,G_{ij}(v_r))^\top$ is a set of genotypes. We assume that $G_{ij}(v_r)\in \{0,\hspace{0.03cm}1,\hspace{0.03cm}2\}$ which denotes the number of minor allele of $j^{\mbox{th}}$ individual in family $i$ at the $r^{\mbox{th}}$ variant.
+
+\noindent For the individual $j$ in family $i$, we consider $\mathbf{T}_{ij}(v), \hspace{0.1cm}v\in [0,\hspace{0.03cm}1]$ as his/her genetic variant function (GVF). Since the response variable is dichotomous, $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{T}_{ij}(v))$ is completely specified by $\mu_{ij} = \mathbf{P}(Y_{ij}=1|\mathbf{X}_{ij},\mathbf{T}_{ij}(v))$.
+
+Thus, we relate the binary phenotype $Y_{ij}$ to the covariates and the genetic variant function through a logistic regression model
+$$
+\mbox{logit}(\mu_{ij})=
+\mathbf{X}_{ij}^{\top}\boldsymbol{\gamma}+\int_0^{1} \mathbf{T}_{ij}(v)^{\top}\boldsymbol{\beta}(v)\hspace{0.025cm}dv, \quad j=1,\ldots, n_{i}, \quad i=1,\ldots,I, 
+$$
+where $\mbox{logit}(\pi)=e^\pi/(1+e^\pi)$; $\boldsymbol{\gamma}=(\gamma_0,\gamma_1,...,\gamma_s)^\top,$ and $\boldsymbol{\beta}=(\beta_1,...,\beta_r)^\top$ are sets of regression coefficients of the genetic variant function at the location $u$. In a matrix notation, one has 
+
+$$\mbox{logit}(\boldsymbol{\mu}_{i})=
+\mathbf{X}_{i}\boldsymbol{\gamma}+\int_0^{1}\mathbf{T}_{i}(v)\boldsymbol{\beta}(v)\hspace{0.025cm}dv,$$
+where $\boldsymbol{\mu}_{i}=(\boldsymbol{\mu}_{i1},...,\boldsymbol{\mu}_{in_i})^\top$, $\mathbf{X}_{i}$ is a $n_i \times (s+1)$ matrix with the $j^\mbox{th}$ row equal to $\mathbf{X}_{ij},$ and $\mathbf{T}_{i}(v) = (T_{i1}(v),\ldots,T_{in_i}(v))^\top$ is the genetic variant function. The integral is applied "elementwise" on the inputs of the vector $\mathbf{T}_i(v) \boldsymbol{\beta}(v).$
+
+We suggested two approaches, as proposed by Jiang et al., (2020) and Zhang et al., (2021) such as (1) smoothing only the genetic effect function $\boldsymbol{\beta}(v),$ which is called beta-smooth only and (2) smoothing both the genetic effect function $\boldsymbol{\beta}(v),$ and the genetic variant function $T_{ij}(v).$
+
+## Beta-Smooth only approach
+In this approach, the genetic effect function $\boldsymbol{\beta}(v)$ is assumed to be continuous or smooth with no assumption about the genetic variant function. The original genotype data $\mathbf{G}_{ij}=(G_{ij}(v_1),...,G_{ij}(v_r))^\top$ is directly use here. Thus, the beta-smooth only model is given by expanding the genetic effect function by either B-Spline or Fourier basis functions $\boldsymbol{\beta}(v)$ as $\boldsymbol{\beta}(v)=(\theta_1(v),\ldots,\theta_{K_{\beta}}(v))(\beta_1,\ldots,\beta_{K_{\beta}})^{\top},$ where $\theta_k(v),\hspace{0.1cm}k=1,\ldots,K,$ is a series of K basis functions, and
+$\boldsymbol{\beta}=(\beta_1,\ldots,\beta_{K_{\beta}})^{\top}$ is a vector of coefficients. We have then:
+
+$$
+\mbox{logit}(\mu_{ij})= \mathbf{X}_{ij}^{\top}\boldsymbol{\gamma}+ \Bigg[\sum_{l=1}^{r}\mathbf{G}_{ij}(v_l) (\theta_1(v_l),\ldots,\theta_{K_{\beta}}(v_l))\Bigg](\beta_1,\ldots,\beta_{K_{\beta}})^{\top}.
+$$
+
+## Smoothness of the genetic effect function and the genetic variant function
+Here, we suppose that the genetic effect function $\boldsymbol{\beta}(v)$ is expanded by a series of basis functions as $\boldsymbol{\beta}(v)=(\theta_1(v),\ldots,\theta_{K_{\beta}}(v))(\beta_1,\ldots,\beta_{K_{\beta}})^{\top},$ and let $\Upsilon$ represents the $r \times K$ matrix carrying the values $\Upsilon_{l\hspace{0.05cm}k} = \phi_k(v_{l}),\hspace{0.15cm}l\in 1,\ldots,r,$ where $\phi(v)=(\phi_1(v),\ldots,\phi_{K_{\beta}}(v))^{\top}$ is a column vector of basis functions. Then, using the discrete realisation, $T_{ij}(v)$ can be estimated as follows
+$$
+\hat{T}_{ij}(v)= (G_{ij}(v_1),...,G_{ij}(v_r))\hspace{0.09cm}\Upsilon[\Upsilon^{\top}\hspace{0.05cm}\Upsilon]^{-1}\phi(v).
+$$
+
+Hence,
+
+$$
+\mbox{logit}(\mu_{ij})= \mathbf{X}_{ij}^{\top}\boldsymbol{\gamma}+ \Bigg[(G_{ij}(v_1),...,G_{ij}((v_r))\hspace{0.09cm}\Upsilon[\Upsilon^{\top}\hspace{0.05cm}\Upsilon]^{-1} \int_0^{1} \phi(v)\hspace{0.09cm}\boldsymbol{\theta}^{\top}(v)\hspace{0.05cm}dv\Bigg](\beta_1,\ldots,\beta_{K_{\beta}})^{\top}.
+$$
+There is available codes in statistical packages in R and Matlab for calculating the terms $\Upsilon[\Upsilon^{\top}\hspace{0.05cm}\Upsilon]^{-1}$ and $\int_0^{1} \phi(v)\hspace{0.09cm}\boldsymbol{\theta}^{\top}(v)\hspace{0.05cm}dv.$ For more details, see (Jiang et al., (2020)).
+
+
+# Installation
+
+**NRVATGFLMM** links to R packages Rcpp and RcppArmadillo, and also imports R packages
+Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. You can install the **NRVATGFLMM** R package from  R cran.
+
+# Input
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(NRVATGFLMM)
+```
+
+## Pedigree file
+
+The pedigree file is in the same format as that used by the PedGFLMM R package and has the following columns:
+
+* ID: identity of each individual.
+
+* ped: pedigree ID, character or numeric allowed.
+
+* person: person ID, a unique ID within each pedigree, numeric or character allowed.
+
+* father: father ID, $0$ if no father.
+
+* mother: mother ID, $0$ if no mother.
+
+* sex: coded as $1$ for male, $2$ for female.
+
+* trait: phenotype, either case-control status coded as $1$ for affected and $0$ for unaffected. Subjects with missing (NA) will be removed from the analysis.
+
+The first 6 lines of the example pedigree file are the following:
+
+```{r echo=FALSE}
+data(Ped)
+head(Ped)
+```
+
+## Genotype file
+The genotype file is a matrix with genotypes for subjects (rows) at each variant position (columns). The first two columns are required to be named 'ped' and 'person', which are used to match subjects to their data in the pedigree data.frame. The genotypes are coded as $0, 1, 2$ for autosomal markers (typically a count of the number of the minor allele). 
+
+
+```{r echo=FALSE}
+data(geno)
+head(geno[1:10])
+```
+
+## Map file
+The map file provides SNP positions for each SNP. The first column is required for the chromosome number, the second column is for the name of SNPs in the genotype file, and the third column is the position of SNPs in base pairs.
+
+Below, we have the first 6 lines of the example map file:
+
+
+```{r echo=FALSE}
+data(snpPos)
+head(snpPos)
+```
+
+## Covariate file
+
+The covariate file contains covariates including the Intercept. The first two columns are required to be named 'ped' and 'person', which are used to match subjects to their data in the pedigree data.frame.
+
+The first 6 lines of the example covariate file are stated below:
+
+```{r echo=FALSE}
+data(cov)
+head(cov)
+```
+
+## Kinship matrix
+
+The kinship matrix is a positive semi-definite relationship matrix (e.g. kinship matrix in genetic association studies). The rownames and colnames of this block matrices must at least include all samples as specified in the ped column of the data frame Ped.
+
+Here are the first 6 lines of the example kinship matrix (first 06 columns):
+
+```{r echo=FALSE}
+data(kin2)
+head(kin2[1:6,1:6])
+```
+
+# Running NRVATGFLMM
+
+Here we have three main functions in this package which implement the statistics described in Dossa et al (2022) such as:
+
+1. NRVAT
+2. CBGF_Beta_Only
+3. CBGF_Fixed  
+
+\noindent After you installe the NRVATGFLMM R package, you can access help pages for each of these three functions easily, which contain example code. For instance, to access the help page for the NRVAT function, proceed as follows in R:
+
+```{r eval=FALSE}
+library(NRVATGFLMM)
+?NRVAT
+```
+
+## Getting the example Data
+
+Before starting, we first load the example data.
+
+```{r eval=FALSE}
+library(NRVATGFLMM)
+data(Ped)
+data(geno)
+data(cov)
+data(snpPos)
+data(kin2)
+```
+
+## NRVAT
+
+The **NRVAT** function carries out a region-based association test using our marginal logistic (NRVAT). 
+
+```{r eval=FALSE}
+members_fam=rep(c(3,4,8),40)
+cov_coef = c(-2,1,1)
+h.s=0.2
+NRVATGFLMM_NRVAT=NRVAT(n=members_fam, gamm = cov_coef, heritability=h.s, 
+                      a1=1, b1=25, Ped=Ped, covariates=cov, geno=geno, kin2=kin2)
+Warning message:
+In davies(S_obsIB, DIB) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+NRVATGFLMM_NRVAT
+  Intercept   gam1      gam2       h.S_estim  NRVAT_S_obsL  
+1 -2.256907   1.379476  1.194767   0.3        2606.676  
+  NRVAT_p.valueL   NRVAT_S_obsQ  NRVAT_p.valueQ
+1  0.6173713       166698.3      0.5979911
+  NRVAT_S_obsIB   NRVAT_p.valueIB  NRVAT_S_obsG   
+1  0.2516299       0.6171456        77.21667    
+  NRVAT_p.valueG   NRVAT_S_obsP  NRVAT_p.valueP
+1  0.5458425       1615371092    0.5961276
+```
+
+\begin{verbatim}
+  Intercept   gam1      gam2       h.S_estim  NRVAT_S_obsL  NRVAT_p.valueL  NRVAT_S_obsQ  NRVAT_p.valueQ
+1 -2.256907   1.379476  1.194767   0.3        2606.676      0.6173713       166698.3      0.5979911
+    NRVAT_S_obsIB   NRVAT_p.valueIB  NRVAT_S_obsG   NRVAT_p.valueG   NRVAT_S_obsP  NRVAT_p.valueP
+1   0.2516299       0.6171456        77.21667       0.5458425        1615371092    0.5961276
+\end{verbatim}
+
+## CBGF_Beta_Only (which we named CBGF-1 in the main article)
+
+The **CBGF_Beta_Only** function carries out a region-based association test using our 'beta smooth only' generalized functional linear mixed model (CBGF), by assuming that the genetic effect function is continuous/smooth. This can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. 
+
+```{r eval=FALSE}
+members_fam=rep(c(3,4,8),40)
+cov_coef = c(-2,1,1)
+h.s=0.2
+beta_basis_BO_BS=10
+beta_basis_BO_FS=11
+order = 4
+
+NRVATGFLMM_Beta_Only=CBGF_Beta_Only(n=members_fam, gamm = cov_coef, 
+  heritability=h.s, a1=1, b1=25, Ped=Ped, covariates=cov, 
+  geno=geno, kin2=kin2, pos = snpPos, order=order, 
+  beta_basis_BO_BS=beta_basis_BO_BS, base_BO_BS = "bspline", 
+  beta_basis_BO_FS=beta_basis_BO_FS     ,base_BO_FS = "fspline")
+Warning message:
+In davies(S_obsIB_BO_BS, DIB_BO_BS) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+NRVATGFLMM_Beta_Only
+  Intercept   gam1      gam2       h.S_estim   StatL.Beta_Bs   p.v_obsbL.Beta_Bs StatQ.Beta_Bs    
+1 -2.256907   1.379476  1.194767   0.3         159.252         0.2988154         694.3374   
+  p.v_obsbQ.Beta_Bs  StatG.Beta_Bs  p.v_obsbG.Beta_Bs  StatP.Beta_Bs   p.v_obsbP.Beta_Bs 
+1  0.7989812         39.26447       0.04829538         40768.38        0.9037688
+  StatL.Beta_Fs    p.v_obsbL.Beta_Fs StatQ.Beta_Fs  p.v_obsbQ.Beta_Fs  StatG.Beta_Fs
+1  3073.721         0.3768726         202584.2      0.8700343          101.2937
+  p.v_obsbG.Beta_Fs  StatP.Beta_Fs    p.v_obsbP.Beta_Fs
+1  0.156813          23836470         0.8751246
+```
+
+## CBGF_Fixed (which we named CBGF-2 in the main article)
+
+The **CBGF_Fixed** function carries out a region-based association test using an expansion of the genetic variant function (GVF) and the genetic effect function in our generalized functional linear mixed model (CBGF).
+This expansion can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user.
+
+
+```{r eval=FALSE}
+members_fam=rep(c(3,4,8),40)
+cov_coef = c(-2,1,1)
+h.s=0.2
+beta_basis_F_BS = geno_basis_F_BS = 10
+beta_basis_F_FS = geno_basis_F_FS = 11
+order = 4
+
+NRVATGFLMM_Fixed=CBGF_Fixed(n=members_fam, gamm = cov_coef, 
+  heritability=h.s, a1=1, b1=25, Ped=Ped, covariates=cov, 
+  geno=geno, kin2=kin2, pos = snpPos, order=order, 
+  beta_basis_F_BS = beta_basis_F_BS, geno_basis_F_BS = geno_basis_F_BS, 
+  base_F_BS = "bspline", beta_basis_F_FS = beta_basis_F_FS, 
+  geno_basis_F_FS = geno_basis_F_FS, base_F_FS ="fspline")
+Warning messages:
+1: In davies(S_obsQ_F_BS, DQ_F_BS) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+2: In davies(S_obsG_F_BS, DG_F_BS) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+3: In davies(S_obsQ_F_FS, DQ_F_FS) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+4: In davies(S_obsG_F_FS, DG_F_FS) :
+  les parties imaginaires sont perdues lors de la conversion automatique
+
+NRVATGFLMM_Fixed
+  Intercept  gam1      gam2       h.S_estim  StatL.Fixed_Bs   p.v_obsbL.Fixed_Bs  StatQ.Fixed_Bs   
+1 -2.256907  1.379476  1.194767   0.3        0.0227694        0.3020547           0.0455453  
+  p.v_obsbQ.Fixed_Bs  StatG.Fixed_Bs  p.v_obsbG.Fixed_Bs StatP.Fixed_Bs  p.v_obsbP.Fixed_Bs
+1  0.3023134          0.004554381     0.3019561          0.4560379       0.3046395
+  StatL.Fixed_Fs  p.v_obsbL.Fixed_Fs  StatQ.Fixed_Fs   p.v_obsbQ.Fixed_Fs  StatG.Fixed_Fs
+1  0.5144763      0.261897            1.033001         0.2652755           0.093562 
+  p.v_obsbG.Fixed_Fs  StatP.Fixed_Fs    p.v_obsbP.Fixed_Fs
+1  0.260894           11.80829          0.2985153
+```
+
+# References
+\bibitem{Breslow1993} Breslow, N. E. and Clayton, D. G. Approximate inference in generalized linear mixed models. \textit{Journal of the American Statistical Association} \textbf{88,} 9--25 (1993).
+
+\bibitem{chen2019efficient} Chen, Han and Huffman, Jennifer E and Brody, Jennifer A and Wang, Chaolong and Lee, Seunggeun and Li, Zilin and Gogarten, Stephanie M and Sofer, Tamar and Bielak, Lawrence F and Bis, Joshua C and others. Efficient variant set mixed model association tests for continuous and binary traits in large-scale whole-genome sequencing studies
+\textit{The American Journal of Human Genetics} \textbf{104,} 260--274 (2019).
+
+\bibitem{jiang2020gene} Jiang, Yingda and Chiu, Chi-Yang and Yan, Qi and Chen, Wei and Gorin, Michael B and Conley, Yvette P and Lakhal-Chaieb, M’Hamed Lajmi and Cook, Richard J and Amos, Christopher I and Wilson, Alexander F and others. Gene-Based Association Testing of Dichotomous Traits With Generalized Functional Linear Mixed Models Using Extended Pedigrees: Applications to Age-Related Macular Degeneration.
+\textit{Journal of the American Statistical Association} 1--15 (2020).
+
+\bibitem{lakhal2016rare} Lakhal-Chaieb, Lajmi and Oualkacha, Karim and Richards, Brent J and Greenwood, Celia MT.
+ A rare variant association test in family-based designs and non-normal quantitative traits.
+\textit{Statistics in medicine} \textbf{35,} 905--921 (2016).
+
+\bibitem{zhang2021gene} Zhang, Bingsong and Chiu, Chi-Yang and Yuan, Fang and Sang, Tian and Cook, Richard J and Wilson, Alexander F and Bailey-Wilson, Joan E and Chew, Emily Y and Xiong, Momiao and Fan, Ruzong. Gene-based analysis of bi-variate survival traits via functional regressions with applications to eye diseases.
+\textit{Genetic Epidemiology} (2021).
