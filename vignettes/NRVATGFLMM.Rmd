@@ -83,7 +83,7 @@ There is available codes in statistical packages in R and Matlab for calculating
 # Installation
 
 **NRVATGFLMM** links to R packages Rcpp and RcppArmadillo, and also imports R packages
-Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. You can install the **NRVATGFLMM** R package from  R cran.
+Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. People can find the **NRVATGFLMM** R package at \url{https://github.com/houssoudossa/NRVATGFLMM}.
 
 # Input
 
