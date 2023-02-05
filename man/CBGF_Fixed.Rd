@@ -7,18 +7,12 @@
   Computes the NRVATGFLMM statistics when smoothing the genetic effect function and the genetic variant function.
 }
 \usage{
-CBGF_Fixed(n, gamm, heritability, a1 = 1, b1 = 25, Ped, 
+CBGF_Fixed(heritability, a1 = 1, b1 = 25, Ped, 
   covariates, geno, kin2, pos, order, beta_basis_F_BS, 
   geno_basis_F_BS, base_F_BS = "bspline", beta_basis_F_FS, 
   geno_basis_F_FS, base_F_FS = "fspline")
 }
 \arguments{
-  \item{n}{
-  A vector containing the number of members in each pedigree.
-}
-  \item{gamm}{
-  A vector of coefficients of the covariates inclunding the intercept.
-}
   \item{heritability}{
   A value (betwen 0 and 1) of the heritability parameter. It defined as the relative importance of influence genetics in phenotypic variance.
 }
@@ -144,19 +138,16 @@ attach(Ped)
 attach(geno)
 attach(cov)
 attach(snpPos)
-members_fam=rep(c(3,4,8),40)
-cov_coef = c(-2,1,1)
 h.s=0.2
 beta_basis_F_BS = geno_basis_F_BS = 10
 beta_basis_F_FS = geno_basis_F_FS = 11
 order = 4
 
-NRVATGFLMM_Fixed=CBGF_Fixed(n=members_fam, gamm = cov_coef, 
-  heritability=h.s, a1=1, b1=25, Ped=Ped, covariates=cov, 
+Result_CBGF2=CBGF_Fixed(heritability=h.s, a1=1, b1=25, Ped=Ped, covariates=cov, 
   geno=geno, kin2=kin2, pos = snpPos, order=order, 
   beta_basis_F_BS = beta_basis_F_BS, geno_basis_F_BS = geno_basis_F_BS, 
   base_F_BS = "bspline", beta_basis_F_FS = beta_basis_F_FS, 
   geno_basis_F_FS = geno_basis_F_FS, base_F_FS ="fspline")
 
-NRVATGFLMM_Fixed
+Result_CBGF2
 }
