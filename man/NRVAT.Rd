@@ -7,16 +7,10 @@
 Computes the Rare Variants Association Test (NRVAT) using the gaussian copula to model the relationship between relatives.
 }
 \usage{
-NRVAT(n, gamm, heritability, a1 = 1, b1 = 25, Ped, covariates, geno, kin2)
+NRVAT(heritability, a1 = 1, b1 = 25, Ped, covariates, geno, kin2)
 }
 
 \arguments{
-  \item{n}{
-  A vector containing the number of members in each pedigree.
-}
-  \item{gamm}{
-  A vector of coefficients of the covariates inclunding the intercept.
-}
   \item{heritability}{
   A value (betwen 0 and 1) of the heritability parameter. It defined as the relative importance of influence genetics in phenotypic variance.
 }
@@ -105,12 +99,10 @@ data(cov)
 attach(Ped)
 attach(geno)
 attach(cov)
-members_fam=rep(c(3,4,8),40)
-cov_coef = c(-2,1,1)
 h.s=0.2
 
-NRVATGFLMM_NRVAT=NRVAT(n=members_fam, gamm = cov_coef, heritability=h.s, 
-  a1=1, b1=25, Ped=Ped, covariates=cov, geno=geno, kin2=kin2)
+Result_NRVAT=NRVAT(heritability=h.s, a1=1, b1=25, 
+  Ped=Ped, covariates=cov, geno=geno, kin2=kin2)
 
-NRVATGFLMM_NRVAT
+Result_NRVAT
 }
