@@ -81,13 +81,7 @@ There is available codes in statistical packages in R and Matlab for calculating
 
 
 # Installation
-
-**NRVATGFLMM** links to R packages Rcpp and RcppArmadillo, and also imports R packages
-Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. People can find the **NRVATGFLMM** R package at \url{https://github.com/houssoudossa/NRVATGFLMM}.
-
-# Input
-
-
+The \textbf{NRVATGFLMM} package is publicly available at \url{https://github.com/houssoudossa/NRVATGFLMM}.
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -95,10 +89,38 @@ knitr::opts_chunk$set(
 )
 ```
 
+\noindent The package is written in R language. To install, one can proceed as follows:
+
+1- Install the devtools package by starting up R and running this command:\\
+```{r eval=FALSE}
+install.packages("devtools")
+```
+
+
+2- Load the devtools library to make its commands available:\\
+```{r eval=FALSE}
+library(devtools)
+```
+
+3- Install the \textbf{NRVATGFLMM} R package from the github repository via this command:\\
+```{r eval=FALSE}
+install_github("houssoudossa/NRVATGFLMM")
+```
+
+```{r eval=FALSE, echo=FALSE}
+#{r setup, include = FALSE}
+library(NRVATGFLMM)
+#**NRVATGFLMM** links to R packages Rcpp and RcppArmadillo, and also imports R packages
+#Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. You can install the **NRVATGFLMM** R package from  R cran.
+```
+
+\noindent The main trhee functions of \textbf{NRVATGFLMM} package requires several input files, namely, Pedigree, Genotypes, Map, Covariates and Kinship matrix. These input files are described next.
+
+# Input
+
 ```{r setup, include = FALSE}
 library(NRVATGFLMM)
 ```
-
 ## Pedigree file
 
 The pedigree file is in the same format as that used by the PedGFLMM R package and has the following columns:
