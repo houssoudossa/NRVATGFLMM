@@ -89,20 +89,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-The package is written in R language. To install, one can proceed as follows:
+The package is written in R language. To install, one can proceed as follows
 
-1- Install the devtools package by starting up R and running this command:\\
+1- Install the devtools package by starting up R and running this command
 ```{r eval=FALSE}
 install.packages("devtools")
 ```
 
 
-2- Load the devtools library to make its commands available:\\
+2- Load the devtools library to make its commands available
 ```{r eval=FALSE}
 library(devtools)
 ```
 
-3- Install the \textbf{NRVATGFLMM} R package from the github repository via this command:\\
+3- Install the \textbf{NRVATGFLMM} R package from the github repository via this command
 ```{r eval=FALSE}
 install_github("houssoudossa/NRVATGFLMM")
 ```
