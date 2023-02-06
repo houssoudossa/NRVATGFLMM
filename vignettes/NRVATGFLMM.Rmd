@@ -81,7 +81,7 @@ There is available codes in statistical packages in R and Matlab for calculating
 
 
 # Installation
-The \textbf{NRVATGFLMM} package is publicly available at \url{https://github.com/houssoudossa/NRVATGFLMM}.
+The \textbf{NRVATGFLMM} package is publicly available at [github.com/houssoudossa/NRVATGFLMM](https://github.com/houssoudossa/NRVATGFLMM).
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
