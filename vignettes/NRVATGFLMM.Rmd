@@ -89,7 +89,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-\noindent The package is written in R language. To install, one can proceed as follows:
+The package is written in R language. To install, one can proceed as follows:
 
 1- Install the devtools package by starting up R and running this command:\\
 ```{r eval=FALSE}
