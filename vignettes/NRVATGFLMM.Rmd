@@ -270,7 +270,7 @@ Result_CBGF1
 
 ## CBGF_Fixed (which we named CBGF-2 in the main article)
 
-The **CBGF_Fixed** function carries out a region-based association test using an expansion of the genetic variant function (GVF) and the genetic effect function in our generalized functional linear mixed model (CBGF). This expansion can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. Figure below shows the results of CBGF-2 model when using the input presented above under B-spline basis functions (Bs) and Fourier basis functions (Fs) with all the kernel matrices including the estimation of covariates' coefficients and the heritability parameter.
+The **CBGF_Fixed** function carries out a region-based association test using an expansion of the genetic variant function (GVF) and the genetic effect function in our generalized functional linear mixed model (CBGF). This expansion can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. Figure below shows the results of CBGF-2 model when using the input presented above under B-spline basis functions (Bs) and Fourier basis functions (Fs) with all the kernel matrices including the estimation of covariates coefficients and the heritability parameter.
 
 
 ```{r eval=FALSE, warning=FALSE}
