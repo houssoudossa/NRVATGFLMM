@@ -89,7 +89,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The package is written in R language. To install, one can proceed as follows
+The package is written in R language, and can be installed as follows
 
 1- Install the devtools package by starting up R and running this command
 ```{r eval=FALSE}
@@ -114,9 +114,9 @@ library(NRVATGFLMM)
 #Rcpp, CompQuadForm, mvtnorm, VineCopula, copula, SKAT, Matrix, MASS, fda, dplyr, Matrix. You can install the **NRVATGFLMM** R package from  R cran.
 ```
 
-\noindent The main trhee functions of \textbf{NRVATGFLMM} package requires several input files, namely, Pedigree, Genotypes, Map, Covariates and Kinship matrix. These input files are described next.
+\noindent The main three functions of **NRVATGFLMM** package requires several input files, namely, Pedigree, Genotypes, Map, Covariates and Kinship matrix (kin2) files. These input files are described next.
 
-# Input
+# Description of the input files
 
 ```{r setup, include = FALSE}
 library(NRVATGFLMM)
@@ -127,7 +127,7 @@ The pedigree file is in the same format as that used by the PedGFLMM R package a
 
 * ID: identity of each individual.
 
-* ped: pedigree ID, character or numeric allowed.
+* ped: pedigree ID, character or numeric are allowed.
 
 * person: person ID, a unique ID within each pedigree, numeric or character allowed.
 
@@ -139,7 +139,7 @@ The pedigree file is in the same format as that used by the PedGFLMM R package a
 
 * trait: phenotype, either case-control status coded as $1$ for affected and $0$ for unaffected. Subjects with missing (NA) will be removed from the analysis.
 
-The first 6 lines of the example pedigree file are the following:
+The first 6 rows of the example pedigree file are the following:
 
 ```{r echo=FALSE}
 data(Ped)
@@ -147,7 +147,7 @@ head(Ped)
 ```
 
 ## Genotype file
-The genotype file is a matrix with genotypes for subjects (rows) at each variant position (columns). The first two columns are required to be named 'ped' and 'person', which are used to match subjects to their data in the pedigree data.frame. The genotypes are coded as $0, 1, 2$ for autosomal markers (typically a count of the number of the minor allele). 
+The genotype file is a matrix with genotypes for subjects (rows) for several variant positions (columns). The first two columns are required to be named "ped" and "person", which are used to match subjects to their data in the pedigree file. The genotypes are coded as $0, 1, 2$ for autosomal markers (typically a count of the number of the minor allele). The following output example shows the first $8$ SNPs genotypes (columns) of the $100$ genotypes considered in the genotypes file. 
 
 
 ```{r echo=FALSE}
@@ -158,7 +158,7 @@ head(geno[1:10])
 ## Map file
 The map file provides SNP positions for each SNP. The first column is required for the chromosome number, the second column is for the name of SNPs in the genotype file, and the third column is the position of SNPs in base pairs.
 
-Below, we have the first 6 lines of the example map file:
+Below, we have the first 6 rows of the example map file:
 
 
 ```{r echo=FALSE}
@@ -168,9 +168,9 @@ head(snpPos)
 
 ## Covariate file
 
-The covariate file contains covariates including the Intercept. The first two columns are required to be named 'ped' and 'person', which are used to match subjects to their data in the pedigree data.frame.
+The covariates file contains covariates including the Intercept. The first two columns are required to be named "ped" and "person", which are used to match subjects to their data in the pedigree file.
 
-The first 6 lines of the example covariate file are stated below:
+The first 6 rows of the covariates file example are stated below:
 
 ```{r echo=FALSE}
 data(cov)
@@ -179,9 +179,7 @@ head(cov)
 
 ## Kinship matrix
 
-The kinship matrix is a positive semi-definite relationship matrix (e.g. kinship matrix in genetic association studies). The rownames and colnames of this block matrices must at least include all samples as specified in the ped column of the data frame Ped.
-
-Here are the first 6 lines of the example kinship matrix (first 06 columns):
+The kinship matrix (kin2) is a positive semi-definite relationship matrix (e.g. kinship matrix in genetic association studies). The rownames and colnames of this block matrices must at least include all samples as specified in the ped column of the pedigree file. Below, we have the first 6 rows of the kinship matrix example  (first $6$ columns):
 
 ```{r echo=FALSE}
 data(kin2)
@@ -190,13 +188,13 @@ head(kin2[1:6,1:6])
 
 # Running NRVATGFLMM
 
-Here we have three main functions in this package which implement the statistics described in Dossa et al (2022) such as:
+**NRVATGFLMM** consists of three main functions, which implement the association tests described in Dossa et al (2022) (chapter $3$) and Dossa et al (2023) (chapter $4$) such as:
 
-1. NRVAT
-2. CBGF_Beta_Only
-3. CBGF_Fixed  
+1. NRVAT: association test implementing our marginal logistic model.
+2. CBGF_Beta_Only: association test implementing generalized functional linear mixed model (CBGF), by assuming that the genetic effect function is continuous/smooth.
+3. CBGF_Fixed: association test implementing generalized functional linear mixed model (CBGF), by assuming that the genetic variant function (GVF) and the genetic effect function are continuous/smooth. 
 
-\noindent After you installe the NRVATGFLMM R package, you can access help pages for each of these three functions easily, which contain example code. For instance, to access the help page for the NRVAT function, proceed as follows in R:
+After package installation, one can access help document for each of these three functions, including a running example. For instance, to access the help documentation for the NRVAT function, one can proceed as follows
 
 ```{r eval=FALSE}
 library(NRVATGFLMM)
@@ -218,7 +216,7 @@ data(kin2)
 
 ## NRVAT
 
-The **NRVAT** function carries out a region-based association test using our marginal logistic (NRVAT). 
+The **NRVAT** function implements a region-based association test using our NRVAT approach. Figure below shows the results of NRVAT model when using the input presented above with all the kernel matrices including the estimation of covariates coefficients and the heritability parameter.
 
 ```{r eval=FALSE, warning=FALSE}
 h.s=0.2
@@ -242,9 +240,11 @@ Result_NRVAT
 1   0.2516299       0.6171456        77.21667       0.5458425        1615371092    0.5961276
 \end{verbatim}
 
+In the two functions CBGF_Beta_Only and CBGF_Fixed, we fixed, by default, the number of B-spline basis functions as $K = K_{\beta} = 10,$ and the number of Fourier basis functions to be $K = K_{\beta} = 11.$ The order of the basis functions was fixed as $4$.
+
 ## CBGF_Beta_Only (which we named CBGF-1 in the main article)
 
-The **CBGF_Beta_Only** function carries out a region-based association test using our 'beta smooth only' generalized functional linear mixed model (CBGF), by assuming that the genetic effect function is continuous/smooth. This can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. 
+The **CBGF_Beta_Only** function implements a region-based association test using our "beta smooth only" generalized functional linear mixed model (CBGF), by assuming that the genetic effect function is continuous/smooth. This can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. Figure below shows the results of CBGF-1 model when using the input presented above under B-spline basis functions (Bs) and Fourier basis functions (Fs) with all the kernel matrices, including the estimation of covariates coefficients and the heritability parameter.
 
 ```{r eval=FALSE, warning=FALSE}
 h.s=0.2
@@ -270,8 +270,7 @@ Result_CBGF1
 
 ## CBGF_Fixed (which we named CBGF-2 in the main article)
 
-The **CBGF_Fixed** function carries out a region-based association test using an expansion of the genetic variant function (GVF) and the genetic effect function in our generalized functional linear mixed model (CBGF).
-This expansion can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user.
+The **CBGF_Fixed** function carries out a region-based association test using an expansion of the genetic variant function (GVF) and the genetic effect function in our generalized functional linear mixed model (CBGF). This expansion can be done using either B-spline or Fourier basis functions, and the order of the basis functions need to be specified by the user. Figure below shows the results of CBGF-2 model when using the input presented above under B-spline basis functions (Bs) and Fourier basis functions (Fs) with all the kernel matrices including the estimation of covariates' coefficients and the heritability parameter.
 
 
 ```{r eval=FALSE, warning=FALSE}
