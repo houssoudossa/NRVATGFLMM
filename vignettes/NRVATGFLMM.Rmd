@@ -26,7 +26,7 @@ header-includes: \usepackage{amsmath}
 
 # Models
 Consider $I$ families and for $i=1,...,I$, let $n_i$ be the size of the $i^{\mbox{th}}$ family. The total sample size is $N=\sum_{i=1}^I n_i$. For $i=1,...,I$ and $j=1,...,n_i$ let $Y_{ij} \in \{0,1\}$ be the binary phenotype under investigation for individual $j$ in family $i$. We begin by specifying the (conditional) marginal distribution of $Y_{ij}$, denoted $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{G}_{ij})$, where 
-$\mathbf{X}_{ij}=(1,X_{ij1},...,X_{ijs})^\top$ is a row covariates vector and  
+$\mathbf{X}_{ij}=(1,X_{ij1},...,X_{ijs})^\top$ is a $1 \times (s+1)$ vector and  
 $\mathbf{G}_{ij}=(G_{ij1},...,G_{ijr})^\top$ is a set of genotypes coded as ($0,1,2$) from biallelic variants. Since the response variable is dichotomous, $F(y_{ij}|\mathbf{X}_{ij}, \mathbf{G}_{ij})$ is completely specified by 
 $\mu_{ij} = \mathbf{P}(Y_{ij}=1|\mathbf{X}_{ij},\mathbf{G}_{ij})$. 
 
