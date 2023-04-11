@@ -246,7 +246,7 @@ Result_NRVAT
 1   0.2516299       0.6171456        77.21667       0.5458425        1615371092    0.5961276
 \end{verbatim}
 
-In the two functions CBGF_Beta_Only and CBGF_Fixed, we fixed, by default, the number of B-spline basis functions as $K = K_{\beta} = 10,$ and the number of Fourier basis functions to be $K = K_{\beta} = 11.$ The order of the basis functions was fixed as $4$.
+In the two functions CBGF_Beta_Only and CBGF_Fixed, we fixed, by default, the number of B-spline basis functions as $K = K_{a} = K_{\beta} = 10,$ and the number of Fourier basis functions to be $K = K_{a} = K_{\beta} = 11.$ The order of the basis functions was fixed as $4$.
 
 ## CBGF_Beta_Only (which we named CBGF-1 in the main article)
 
