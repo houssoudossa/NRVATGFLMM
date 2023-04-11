@@ -185,7 +185,8 @@ head(cov)
 
 ## Kinship matrix
 
-The kinship matrix (kin2) is a positive semi-definite relationship matrix (e.g. kinship matrix in genetic association studies). The rownames and colnames of this block matrices must at least include all samples as specified in the ped column of the pedigree file. Below, we have the first 6 rows of the kinship matrix example  (first $6$ columns):
+The kinship matrix (kin2) is a positive semi-definite relationship matrix (e.g. kinship matrix in genetic association studies). Its entries give the probability of sharing identically by descent
+%(IBD) at the level of the whole genome between subjects. For instance, $\boldsymbol{\Phi}_{j\hspace{0.02cm}j}= 0.5$ for all subjects $j$, $\boldsymbol{\Phi}_{j\hspace{0.02cm}k}= 0.25$ if $j$ and $k$ are siblings or if one of them is a parent of the other, $\boldsymbol{\Phi}_{j\hspace{0.02cm}k}= 0.125$ if one of them is a grand-parent of the other and $\boldsymbol{\Phi}_{j\hspace{0.02cm}k}= 0.0625$ if $j$ and $k$ are cousins. The rownames and colnames of this block matrices must at least include all samples as specified in the ped column of the pedigree file. Below, we have the first 6 rows of the kinship matrix example  (first $6$ columns) which show two independent families of two parents and one child.
 
 ```{r echo=FALSE}
 data(kin2)
