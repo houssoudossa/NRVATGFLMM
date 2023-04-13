@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 
-author: "DOSSA H. Roland G., Oualkacha Karim, Lakhal-Chaieb Lajmi"
+author: "Dossa Houssou Roland G., Lakhal-Chaieb Lajmi, Oualkacha Karim"
 
 header-includes: \usepackage{amsmath}
                   \usepackage{mathrsfs}
